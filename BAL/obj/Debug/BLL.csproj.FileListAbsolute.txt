@@ -1,0 +1,11 @@
+D:\.NET\OOAD\BAL\bin\Debug\BAL.dll
+D:\.NET\OOAD\BAL\bin\Debug\BAL.pdb
+D:\.NET\OOAD\BAL\bin\Debug\DAL.dll
+D:\.NET\OOAD\BAL\bin\Debug\DTO.dll
+D:\.NET\OOAD\BAL\bin\Debug\DAL.pdb
+D:\.NET\OOAD\BAL\bin\Debug\DTO.pdb
+D:\.NET\OOAD\BAL\obj\Debug\BLL.csproj.AssemblyReference.cache
+D:\.NET\OOAD\BAL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
+D:\.NET\OOAD\BAL\obj\Debug\BLL.csproj.CopyComplete
+D:\.NET\OOAD\BAL\obj\Debug\BAL.dll
+D:\.NET\OOAD\BAL\obj\Debug\BAL.pdb
