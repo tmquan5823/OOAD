@@ -19,7 +19,7 @@ namespace GUI
         AppointmentBLL aBLL = new AppointmentBLL();
         AppointmentAttendanceBLL aaBLL = new AppointmentAttendanceBLL();
         PersonBLL PersonBLL = new PersonBLL();
-        ReminderBLL rBLL = new ReminderBLL();   
+        ReminderBLL rBLL = new ReminderBLL();
         public UserForm(Person p)
         {
             InitializeComponent();
@@ -34,17 +34,17 @@ namespace GUI
         public void checkInvited()
         {
             List<AppoimentAttendance> list = aaBLL.checkInvited(person);
-            if(list != null)
+            if (list != null)
             {
-                foreach(var item in list)
+                foreach (var item in list)
                 {
                     Appointment app = aBLL.getByID(item.Appointment_ID);
                     DialogResult kq = MessageBox.Show("Bạn có muốn tham gia cuộc họp " + app.Title, "Lời mời tham gia cuộc họp!", MessageBoxButtons.YesNo); ;
-                    if(kq == DialogResult.Yes)
+                    if (kq == DialogResult.Yes)
                     {
                         aaBLL.AcceptInvite(item.Appointment_ID, person);
                     }
-                    else  aaBLL.RejectInvite(item.Appointment_ID, person);
+                    else aaBLL.RejectInvite(item.Appointment_ID, person);
                 }
             }
         }
@@ -52,18 +52,18 @@ namespace GUI
         {
             List<Appointment> list = aBLL.ListAppointment(d, p);
             listApp.Items.Clear();
-            foreach(var item in list)
+            foreach (var item in list)
             {
                 ListViewItem lvi = new ListViewItem(item.Appointment_ID.ToString());
                 lvi.SubItems.Add(item.Title);
                 listApp.Items.Add(lvi);
             }
         }
-        
+
         public void ShowReminder()
         {
             listReminder.Items.Clear();
-            foreach(var item in rBLL.ListReminder(person))
+            foreach (var item in rBLL.ListReminder(person))
             {
                 ListViewItem lvi = new ListViewItem(item.ReminderID.ToString());
                 lvi.SubItems.Add(aBLL.getByID(item.AppointmentID).Title);
@@ -79,7 +79,7 @@ namespace GUI
             cbb_attendance.ValueMember = "Person_ID";
             List<AppoimentAttendance> list = aaBLL.getListByID(ID);
             listAtt.Items.Clear();
-            foreach(var item in list)
+            foreach (var item in list)
             {
                 ListViewItem lvi = new ListViewItem(item.Attendance_ID.ToString());
                 lvi.SubItems.Add(PersonBLL.getByID(item.Attendance_ID).Person_Name);
@@ -145,12 +145,14 @@ namespace GUI
 
         private void btn_RemoveAtt_Click(object sender, EventArgs e)
         {
-            if(listAtt.SelectedItems.Count == 0) {
+            if (listAtt.SelectedItems.Count == 0)
+            {
                 MessageBox.Show("Vui long chon nguoi muon xoa!");
                 return;
             }
             DialogResult kq = MessageBox.Show("Ban co muon xoa nguoi nay khoi cuoc hop?", "Xoa khach moi", MessageBoxButtons.YesNoCancel);
-            if (kq == DialogResult.Yes) {
+            if (kq == DialogResult.Yes)
+            {
                 aaBLL.RemoveAtt(int.Parse(listAtt.SelectedItems[0].SubItems[0].Text));
                 ShowAttendance(int.Parse(listApp.SelectedItems[0].SubItems[0].Text));
             }
@@ -164,7 +166,8 @@ namespace GUI
                 DialogResult kq = MessageBox.Show("Ban co muon them nguoi nay vao cuoc hop?", "Moi nguoi tham du", MessageBoxButtons.YesNo);
                 if (kq == DialogResult.Yes)
                 {
-                    if(aaBLL.AddAtt(p, int.Parse(listApp.SelectedItems[0].SubItems[0].Text)) == false){
+                    if (aaBLL.AddAtt(p, int.Parse(listApp.SelectedItems[0].SubItems[0].Text)) == false)
+                    {
                         MessageBox.Show("Them that bai!");
                     }
                     else
@@ -177,7 +180,8 @@ namespace GUI
 
         private void btn_removeRemider_Click(object sender, EventArgs e)
         {
-            if(listReminder.SelectedItems.Count > 0) {
+            if (listReminder.SelectedItems.Count > 0)
+            {
                 DialogResult kq = MessageBox.Show("Ban co muon xoa loi nhac ve cuoc hop nay?", "Xoa loi nhac", MessageBoxButtons.YesNo);
                 if (kq == DialogResult.Yes)
                 {
@@ -193,6 +197,47 @@ namespace GUI
             int aID = int.Parse(listApp.SelectedItems[0].SubItems[0].Text);
             rBLL.AddReminder(person, aID, rTime);
             ShowReminder();
+        }
+
+        public List<AppoimentAttendance> getListAttendance()
+        {
+            List<AppoimentAttendance> list = new List<AppoimentAttendance>();
+
+            foreach (ListViewItem item in listAtt.Items)
+            {
+                AppoimentAttendance aa = new AppoimentAttendance();
+                aa.Attendance_ID = Int32.Parse(item.SubItems[0].Text);
+                aa.AttendanceStatus = item.SubItems[2].Text;
+            }
+
+            return list;
+        }
+
+        private void btn_them_Click_1(object sender, EventArgs e)
+        {
+            Appointment app = new Appointment();
+            app.Title = txt_title.Text;
+            app.HostID = person.Person_ID;
+            app.StartTime = new TimeSpan(dtp_starttime.Value.Hour, dtp_starttime.Value.Minute, dtp_starttime.Value.Second);
+            app.EndTime = new TimeSpan(dtp_endtime.Value.Hour, dtp_endtime.Value.Minute, dtp_endtime.Value.Second);
+            app.AppointmentLocation = txt_loc.Text;
+            app.AppointmentDescription = txt_des.Text;
+            app.AppointmentDate = dtp_appDate.Value;
+            if (aBLL.InsertAppointment(app))
+            {
+                aaBLL.SetHost(aBLL.getByTitle(app.Title).Appointment_ID, person);
+                MessageBox.Show("Thêm lịch họp thành công!");
+                HienThi(dtp_date.Value, person);
+            }
+            else
+            {
+                MessageBox.Show("Dữ liệu nhập vào không hợp lệ!");
+            }
+        }
+
+        private void btn_capnhat_Click_1(object sender, EventArgs e)
+        {
+            MessageBox.Show("Bạn có cuộc hẹn OOAD sau 15 phút nữa", "Thông báo đến giờ hẹn!", MessageBoxButtons.OK);
         }
     }
 }

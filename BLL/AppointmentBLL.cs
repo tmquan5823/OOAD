@@ -19,5 +19,33 @@ namespace BLL
         {
             return aDAL.getAppointmentById(ID);
         }
+        public Boolean checkAppointment(Appointment appointment, Person p)
+        {
+            return aDAL.checkAppointment(appointment, p);
+        }
+        public Boolean InsertAppointment(Appointment A)
+        {
+            if(A.Title == "" || A.AppointmentLocation == "" || A.AppointmentDate < DateTime.Now || A.StartTime > A.EndTime) {
+                return false;
+            }
+            aDAL.InsertAppointment(A);
+            return true;
+        }
+        public int countAppointment()
+        {
+            return aDAL.CountNumberOfAppointment();
+        }
+        public void RemoveAppointment(int ID)
+        {
+            aDAL.RemoveAppointment(ID);
+        }
+        public void UpdateAppointment(Appointment a)
+        {
+            aDAL.UpdateAppointment(a);
+        }
+        public Appointment getByTitle(string s)
+        {
+            return aDAL.getByTitle(s);
+        }
     }
 }

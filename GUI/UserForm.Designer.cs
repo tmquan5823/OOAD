@@ -240,7 +240,6 @@
             this.btn_xoa.TabIndex = 33;
             this.btn_xoa.Text = "Xóa";
             this.btn_xoa.UseVisualStyleBackColor = false;
-            this.btn_xoa.Click += new System.EventHandler(this.btn_xoa_Click);
             // 
             // btn_capnhat
             // 
@@ -257,7 +256,7 @@
             this.btn_capnhat.TabIndex = 32;
             this.btn_capnhat.Text = "Cập nhật";
             this.btn_capnhat.UseVisualStyleBackColor = false;
-            this.btn_capnhat.Click += new System.EventHandler(this.btn_capnhat_Click);
+            this.btn_capnhat.Click += new System.EventHandler(this.btn_capnhat_Click_1);
             // 
             // btn_them
             // 
@@ -274,7 +273,7 @@
             this.btn_them.TabIndex = 31;
             this.btn_them.Text = "Thêm";
             this.btn_them.UseVisualStyleBackColor = false;
-            this.btn_them.Click += new System.EventHandler(this.btn_them_Click);
+            this.btn_them.Click += new System.EventHandler(this.btn_them_Click_1);
             // 
             // txt_loc
             // 

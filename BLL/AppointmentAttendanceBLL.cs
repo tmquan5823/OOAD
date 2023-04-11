@@ -44,5 +44,9 @@ namespace BLL
             aaDal.AddAtt(p, AppID);
             return true;
         }
+        public void SetHost(int aID, Person p)
+        {
+            aaDal.SetHost(aID, p);
+        }
     }
 }

@@ -90,5 +90,15 @@ namespace DAL
 
             sqlcmd.ExecuteNonQuery();
         }
+        public void SetHost(int aID, Person p)
+        {
+            OpenConnection();
+            SqlCommand sqlcmd = new SqlCommand();
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            sqlcmd.CommandText = "insert into AppointmentAttendance values(" + aID + ", " + p.Person_ID +", 'Host')";
+            sqlcmd.Connection = sqlCon;
+
+            sqlcmd.ExecuteNonQuery();
+        }
     }
 }
