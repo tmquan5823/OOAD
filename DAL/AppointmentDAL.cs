@@ -15,8 +15,10 @@ namespace DAL
             List<Appointment> appointments = new List<Appointment>();
             OpenConnection();
             SqlCommand sqlcmd = new SqlCommand();
-            sqlcmd.CommandType = System.Data.CommandType.Text;
-            sqlcmd.CommandText = "select * from Appointment where AppointmentDate = '" + d.ToString("yyyy-MM-dd")+ "'";
+            sqlcmd.CommandType = System.Data.CommandType.StoredProcedure;
+            sqlcmd.CommandText = "ListAppointment";
+            sqlcmd.Parameters.Add("@AttID", System.Data.SqlDbType.Int).Value = p.Person_ID;
+            sqlcmd.Parameters.Add("@date", System.Data.SqlDbType.Date).Value = d.ToString("yyyy-MM-dd");
             sqlcmd.Connection = sqlCon;
 
             SqlDataReader reader = sqlcmd.ExecuteReader();

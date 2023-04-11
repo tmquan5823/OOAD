@@ -35,5 +35,9 @@ namespace BLL
         {
             return pDAL.getById(ID);
         }
+        public Person getByUserName(string userName)
+        {
+            return pDAL.getByUserName(userName);
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace GUI
 {
     public partial class FormDN : Form
     {
-        public static Person p;
+        Person p = new Person();
         PersonBLL pBLL = new PersonBLL();
         public FormDN()
         {
@@ -28,8 +28,9 @@ namespace GUI
             string check = pBLL.CheckUserInfo(p);
             if(check == "Đăng nhập thành công!")
             {
+                p = pBLL.getByUserName(p.UserName);
                 MessageBox.Show(check);
-                UserForm frm = new UserForm();
+                UserForm frm = new UserForm(p);
                 this.Hide();
                 frm.ShowDialog();
             }

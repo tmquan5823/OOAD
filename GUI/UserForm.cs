@@ -15,13 +15,38 @@ namespace GUI
 {
     public partial class UserForm : Form
     {
-        Person person = FormDN.p;
+        Person person = new Person();
         AppointmentBLL aBLL = new AppointmentBLL();
         AppointmentAttendanceBLL aaBLL = new AppointmentAttendanceBLL();
         PersonBLL PersonBLL = new PersonBLL();
-        public UserForm()
+        ReminderBLL rBLL = new ReminderBLL();   
+        public UserForm(Person p)
         {
             InitializeComponent();
+            person = p;
+        }
+        private void UserForm_Load(object sender, EventArgs e)
+        {
+            HienThi(dtp_date.Value, person);
+            ShowReminder();
+            checkInvited();
+        }
+        public void checkInvited()
+        {
+            List<AppoimentAttendance> list = aaBLL.checkInvited(person);
+            if(list != null)
+            {
+                foreach(var item in list)
+                {
+                    Appointment app = aBLL.getByID(item.Appointment_ID);
+                    DialogResult kq = MessageBox.Show("Bạn có muốn tham gia cuộc họp " + app.Title, "Lời mời tham gia cuộc họp!", MessageBoxButtons.YesNo); ;
+                    if(kq == DialogResult.Yes)
+                    {
+                        aaBLL.AcceptInvite(item.Appointment_ID, person);
+                    }
+                    else  aaBLL.RejectInvite(item.Appointment_ID, person);
+                }
+            }
         }
         public void HienThi(DateTime d, Person p)
         {
@@ -34,9 +59,17 @@ namespace GUI
                 listApp.Items.Add(lvi);
             }
         }
-        private void UserForm_Load(object sender, EventArgs e)
+        
+        public void ShowReminder()
         {
-            HienThi(dtp_date.Value);
+            listReminder.Items.Clear();
+            foreach(var item in rBLL.ListReminder(person))
+            {
+                ListViewItem lvi = new ListViewItem(item.ReminderID.ToString());
+                lvi.SubItems.Add(aBLL.getByID(item.AppointmentID).Title);
+                lvi.SubItems.Add(item.ReminderTime);
+                listReminder.Items.Add(lvi);
+            }
         }
 
         public void ShowAttendance(int ID)
@@ -102,7 +135,7 @@ namespace GUI
 
         private void dtp_date_ValueChanged(object sender, EventArgs e)
         {
-            HienThi(dtp_date.Value);
+            HienThi(dtp_date.Value, person);
         }
 
         private void listUser_SelectedIndexChanged(object sender, EventArgs e)
@@ -140,6 +173,26 @@ namespace GUI
                     }
                 }
             }
+        }
+
+        private void btn_removeRemider_Click(object sender, EventArgs e)
+        {
+            if(listReminder.SelectedItems.Count > 0) {
+                DialogResult kq = MessageBox.Show("Ban co muon xoa loi nhac ve cuoc hop nay?", "Xoa loi nhac", MessageBoxButtons.YesNo);
+                if (kq == DialogResult.Yes)
+                {
+                    rBLL.RemoveReminder(int.Parse(listReminder.SelectedItems[0].SubItems[0].Text));
+                    ShowReminder();
+                }
+            }
+        }
+
+        private void btn_addReminder_Click(object sender, EventArgs e)
+        {
+            string rTime = cbb_reminderTime.SelectedItem.ToString();
+            int aID = int.Parse(listApp.SelectedItems[0].SubItems[0].Text);
+            rBLL.AddReminder(person, aID, rTime);
+            ShowReminder();
         }
     }
 }

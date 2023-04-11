@@ -30,6 +30,9 @@ namespace DAL
             reader.Close();
             return false; 
         }
+
+        
+
         public List<Person> getList()
         {
             List<Person> list = new List<Person>();
@@ -87,6 +90,29 @@ namespace DAL
             SqlCommand sqlcmd = new SqlCommand();
             sqlcmd.CommandType = System.Data.CommandType.Text;
             sqlcmd.CommandText = "select * from Person where Person_ID = " + ID + "";
+            sqlcmd.Connection = sqlCon;
+
+            SqlDataReader reader = sqlcmd.ExecuteReader();
+            while (reader.Read())
+            {
+                app.Person_ID = reader.GetInt32(0);
+                app.Person_Name = reader.GetString(1);
+                app.Tel = reader.GetString(2);
+                app.Email = reader.GetString(3);
+                app.Sex = reader.GetString(4);
+                app.UserName = reader.GetString(5);
+                app.UserPassword = reader.GetString(6);
+            }
+            reader.Close();
+            return app;
+        }
+        public Person getByUserName(string userName)
+        {
+            Person app = new Person();
+            OpenConnection();
+            SqlCommand sqlcmd = new SqlCommand();
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            sqlcmd.CommandText = "select * from Person where UserName = '" + userName + "'";
             sqlcmd.Connection = sqlCon;
 
             SqlDataReader reader = sqlcmd.ExecuteReader();

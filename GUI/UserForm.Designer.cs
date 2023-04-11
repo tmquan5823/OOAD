@@ -65,12 +65,14 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel3 = new System.Windows.Forms.Panel();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.btn_removeRemider = new System.Windows.Forms.Button();
+            this.btn_addReminder = new System.Windows.Forms.Button();
+            this.cbb_reminderTime = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.listReminder = new System.Windows.Forms.ListView();
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel_menu.SuspendLayout();
             this.panel_taikhoan.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -503,9 +505,9 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(215)))), ((int)(((byte)(197)))));
-            this.panel3.Controls.Add(this.button5);
-            this.panel3.Controls.Add(this.button6);
-            this.panel3.Controls.Add(this.comboBox1);
+            this.panel3.Controls.Add(this.btn_removeRemider);
+            this.panel3.Controls.Add(this.btn_addReminder);
+            this.panel3.Controls.Add(this.cbb_reminderTime);
             this.panel3.Controls.Add(this.label10);
             this.panel3.Controls.Add(this.listReminder);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
@@ -514,32 +516,39 @@
             this.panel3.Size = new System.Drawing.Size(444, 407);
             this.panel3.TabIndex = 3;
             // 
-            // button5
+            // btn_removeRemider
             // 
-            this.button5.Location = new System.Drawing.Point(339, 41);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(91, 35);
-            this.button5.TabIndex = 12;
-            this.button5.Text = "Remove";
-            this.button5.UseVisualStyleBackColor = true;
+            this.btn_removeRemider.Location = new System.Drawing.Point(350, 38);
+            this.btn_removeRemider.Name = "btn_removeRemider";
+            this.btn_removeRemider.Size = new System.Drawing.Size(82, 38);
+            this.btn_removeRemider.TabIndex = 12;
+            this.btn_removeRemider.Text = "Remove";
+            this.btn_removeRemider.UseVisualStyleBackColor = true;
+            this.btn_removeRemider.Click += new System.EventHandler(this.btn_removeRemider_Click);
             // 
-            // button6
+            // btn_addReminder
             // 
-            this.button6.Location = new System.Drawing.Point(273, 41);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(58, 35);
-            this.button6.TabIndex = 11;
-            this.button6.Text = "Add";
-            this.button6.UseVisualStyleBackColor = true;
+            this.btn_addReminder.Location = new System.Drawing.Point(286, 38);
+            this.btn_addReminder.Name = "btn_addReminder";
+            this.btn_addReminder.Size = new System.Drawing.Size(58, 38);
+            this.btn_addReminder.TabIndex = 11;
+            this.btn_addReminder.Text = "Add";
+            this.btn_addReminder.UseVisualStyleBackColor = true;
+            this.btn_addReminder.Click += new System.EventHandler(this.btn_addReminder_Click);
             // 
-            // comboBox1
+            // cbb_reminderTime
             // 
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(6, 40);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(257, 33);
-            this.comboBox1.TabIndex = 10;
+            this.cbb_reminderTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbb_reminderTime.FormattingEnabled = true;
+            this.cbb_reminderTime.Items.AddRange(new object[] {
+            "5 phút ",
+            "15 phút ",
+            "30 phút ",
+            "1 tiếng "});
+            this.cbb_reminderTime.Location = new System.Drawing.Point(6, 40);
+            this.cbb_reminderTime.Name = "cbb_reminderTime";
+            this.cbb_reminderTime.Size = new System.Drawing.Size(257, 33);
+            this.cbb_reminderTime.TabIndex = 10;
             // 
             // label10
             // 
@@ -555,7 +564,9 @@
             // 
             this.listReminder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(233)))), ((int)(((byte)(224)))));
             this.listReminder.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader6});
+            this.columnHeader6,
+            this.columnHeader9,
+            this.columnHeader10});
             this.listReminder.Cursor = System.Windows.Forms.Cursors.Hand;
             this.listReminder.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.listReminder.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -571,8 +582,17 @@
             // 
             // columnHeader6
             // 
-            this.columnHeader6.Text = "Thời gian báo trước";
-            this.columnHeader6.Width = 433;
+            this.columnHeader6.Text = "ID";
+            // 
+            // columnHeader9
+            // 
+            this.columnHeader9.Text = "Tên cuộc họp";
+            this.columnHeader9.Width = 188;
+            // 
+            // columnHeader10
+            // 
+            this.columnHeader10.Text = "Thời gian nhắc trước";
+            this.columnHeader10.Width = 192;
             // 
             // UserForm
             // 
@@ -634,14 +654,16 @@
         private System.Windows.Forms.ComboBox cbb_attendance;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ListView listAtt;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button btn_removeRemider;
+        private System.Windows.Forms.Button btn_addReminder;
+        private System.Windows.Forms.ComboBox cbb_reminderTime;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ListView listReminder;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeader9;
+        private System.Windows.Forms.ColumnHeader columnHeader10;
     }
 }

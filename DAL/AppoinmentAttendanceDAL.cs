@@ -11,6 +11,44 @@ namespace DAL
 {
     public class AppoinmentAttendanceDAL : Database
     {
+        public List<AppoimentAttendance> checkInvited(Person p)
+        {
+            List<AppoimentAttendance> list = new List<AppoimentAttendance>();
+            OpenConnection();
+            SqlCommand sqlcmd = new SqlCommand();
+            sqlcmd.CommandType = System.Data.CommandType.StoredProcedure;
+            sqlcmd.CommandText = "checkInvited";
+            sqlcmd.Parameters.Add("@aID", System.Data.SqlDbType.Int).Value = p.Person_ID;
+            sqlcmd.Connection = sqlCon;
+
+            SqlDataReader reader = sqlcmd.ExecuteReader();
+            while (reader.Read())
+            {
+                AppoimentAttendance tmp = new AppoimentAttendance();
+                tmp.Appointment_ID = reader.GetInt32(0);
+                list.Add(tmp);
+            }
+            reader.Close();
+            return list;
+        }
+        public void AcceptInvite(int aID, Person p)
+        {
+            OpenConnection();
+            SqlCommand sqlcmd = new SqlCommand();
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            sqlcmd.CommandText = "update AppointmentAttendance set AttendanceStatus = 'Tham gia' where Attendance_ID = " + p.Person_ID + " and Appointment_ID = " + aID;
+            sqlcmd.Connection = sqlCon;
+            sqlcmd.ExecuteNonQuery();
+        }
+        public void RejectInvite(int aID, Person p)
+        {
+            OpenConnection();
+            SqlCommand sqlcmd = new SqlCommand();
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            sqlcmd.CommandText = "update AppointmentAttendance set AttendanceStatus = 'Khong tham gia' where Attendance_ID = " + p.Person_ID + " and Appointment_ID = " + aID;
+            sqlcmd.Connection = sqlCon;
+            sqlcmd.ExecuteNonQuery();
+        }
         public List<AppoimentAttendance> getByAppointmentID(int ID)
         {   
             List<AppoimentAttendance> list = new List<AppoimentAttendance>();
