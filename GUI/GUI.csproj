@@ -89,8 +89,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BAL\BLL.csproj">
-      <Project>{a2c1cdb0-9b5b-4475-8a27-0b4eebe7e3f4}</Project>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{4ffe11bc-d1fc-4370-80ea-fe3dfc222334}</Project>
       <Name>BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\DTO\DTO.csproj">

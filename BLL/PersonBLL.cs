@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using DAL;
 using DTO;
+using DAL;
 
 namespace BLL
 {
@@ -18,7 +17,7 @@ namespace BLL
             {
                 return "Vui lòng nhập tên đăng nhập!";
             }
-            else if(p.UserPassword == "")
+            else if (p.UserPassword == "")
             {
                 return "Vui lòng nhập mật khẩu!";
             }
@@ -27,6 +26,10 @@ namespace BLL
                 if (pDAL.CheckUserInfo(p)) return "Đăng nhập thành công!";
                 else return "Tên đăng nhập hoặc mật khẩu không hợp lệ!";
             }
+        }
+        public List<Person> ListAttendance(int id)
+        {
+            return pDAL.ListAttendance(id);
         }
         public Person getByID(int ID)
         {

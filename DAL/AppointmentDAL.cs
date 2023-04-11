@@ -10,7 +10,7 @@ namespace DAL
 {
     public class AppointmentDAL : Database
     {
-        public List<Appointment> ListAppointment(DateTime d)
+        public List<Appointment> ListAppointment(DateTime d, Person p)
         {
             List<Appointment> appointments = new List<Appointment>();
             OpenConnection();

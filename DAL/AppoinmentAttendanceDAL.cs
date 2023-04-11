@@ -32,6 +32,25 @@ namespace DAL
             reader.Close();
             return list;
         }
+        public void AddAtt(Person p, int AppID)
+        {
+            OpenConnection();
+            SqlCommand sqlcmd = new SqlCommand();
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            sqlcmd.CommandText = "insert into AppointmentAttendance values(" + AppID + ", " + p.Person_ID +", 'Chua phan hoi')";
+            sqlcmd.Connection = sqlCon;
 
+            sqlcmd.ExecuteNonQuery();
+        }
+        public void RemoveAtt(int ID)
+        {
+            OpenConnection();
+            SqlCommand sqlcmd = new SqlCommand();   
+            sqlcmd.CommandType =System.Data.CommandType.Text;
+            sqlcmd.CommandText = "delete from AppointmentAttendance where Attendance_ID = " + ID;
+            sqlcmd.Connection = sqlCon;
+
+            sqlcmd.ExecuteNonQuery();
+        }
     }
 }

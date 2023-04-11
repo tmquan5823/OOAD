@@ -14,7 +14,7 @@ namespace GUI
 {
     public partial class FormDN : Form
     {
-        Person p = new Person();
+        public static Person p;
         PersonBLL pBLL = new PersonBLL();
         public FormDN()
         {

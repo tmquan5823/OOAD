@@ -9,23 +9,23 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DTO;
 using BLL;
-using BAL;
 using System.Runtime.InteropServices;
 
 namespace GUI
 {
     public partial class UserForm : Form
     {
+        Person person = FormDN.p;
         AppointmentBLL aBLL = new AppointmentBLL();
-        AppoinmentAttendanceBLL aaBLL = new AppoinmentAttendanceBLL();
+        AppointmentAttendanceBLL aaBLL = new AppointmentAttendanceBLL();
         PersonBLL PersonBLL = new PersonBLL();
         public UserForm()
         {
             InitializeComponent();
         }
-        public void HienThi(DateTime d)
+        public void HienThi(DateTime d, Person p)
         {
-            List<Appointment> list = aBLL.ListAppointment(d);
+            List<Appointment> list = aBLL.ListAppointment(d, p);
             listApp.Items.Clear();
             foreach(var item in list)
             {
@@ -41,6 +41,9 @@ namespace GUI
 
         public void ShowAttendance(int ID)
         {
+            cbb_attendance.DataSource = PersonBLL.ListAttendance(ID);
+            cbb_attendance.DisplayMember = "Person_Name";
+            cbb_attendance.ValueMember = "Person_ID";
             List<AppoimentAttendance> list = aaBLL.getListByID(ID);
             listAtt.Items.Clear();
             foreach(var item in list)
@@ -69,6 +72,74 @@ namespace GUI
         private void btn_them_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btn_tk_Click(object sender, EventArgs e)
+        {
+            if (panel_taikhoan.Visible == false) panel_taikhoan.Visible = true;
+            else panel_taikhoan.Visible = false;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel_menu_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btn_capnhat_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_xoa_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtp_date_ValueChanged(object sender, EventArgs e)
+        {
+            HienThi(dtp_date.Value);
+        }
+
+        private void listUser_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_RemoveAtt_Click(object sender, EventArgs e)
+        {
+            if(listAtt.SelectedItems.Count == 0) {
+                MessageBox.Show("Vui long chon nguoi muon xoa!");
+                return;
+            }
+            DialogResult kq = MessageBox.Show("Ban co muon xoa nguoi nay khoi cuoc hop?", "Xoa khach moi", MessageBoxButtons.YesNoCancel);
+            if (kq == DialogResult.Yes) {
+                aaBLL.RemoveAtt(int.Parse(listAtt.SelectedItems[0].SubItems[0].Text));
+                ShowAttendance(int.Parse(listApp.SelectedItems[0].SubItems[0].Text));
+            }
+        }
+
+        private void btn_AddAtt_Click(object sender, EventArgs e)
+        {
+            Person p = (Person)cbb_attendance.SelectedItem;
+            if (p != null)
+            {
+                DialogResult kq = MessageBox.Show("Ban co muon them nguoi nay vao cuoc hop?", "Moi nguoi tham du", MessageBoxButtons.YesNo);
+                if (kq == DialogResult.Yes)
+                {
+                    if(aaBLL.AddAtt(p, int.Parse(listApp.SelectedItems[0].SubItems[0].Text)) == false){
+                        MessageBox.Show("Them that bai!");
+                    }
+                    else
+                    {
+                        ShowAttendance(int.Parse(listApp.SelectedItems[0].SubItems[0].Text));
+                    }
+                }
+            }
         }
     }
 }

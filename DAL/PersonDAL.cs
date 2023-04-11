@@ -55,6 +55,31 @@ namespace DAL
             reader.Close();
             return list;
         }
+        public List<Person> ListAttendance(int id)
+        {
+            List<Person> list = new List<Person>();
+            OpenConnection();
+            SqlCommand sqlcmd = new SqlCommand();
+            sqlcmd.CommandType = System.Data.CommandType.StoredProcedure;
+            sqlcmd.CommandText = "ListAttendance";
+            sqlcmd.Parameters.Add("@aID", System.Data.SqlDbType.Int).Value = id;
+            sqlcmd.Connection = sqlCon;
+            SqlDataReader reader = sqlcmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Person p = new Person();
+                p.Person_ID = reader.GetInt32(0);
+                p.Person_Name = reader.GetString(1);
+                p.Tel = reader.GetString(2);
+                p.Email = reader.GetString(3);
+                p.Sex = reader.GetString(4);
+                p.UserName = reader.GetString(5);
+                p.UserPassword = reader.GetString(6);
+                list.Add(p);
+            }
+            reader.Close();
+            return list;
+        }
         public Person getById(int ID)
         {
             Person app = new Person();
